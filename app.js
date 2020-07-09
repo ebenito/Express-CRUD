@@ -13,6 +13,8 @@ var app = express();
 
 //Conectamos a MongoDB; en producción creamos la variable de entorno con la cadena de conexión en producción, que incluye la password (asi no se verá publicamente al estar publicado en GIT) y en desarrollo usará la BD local.
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/pruebas'; 
+console.log('Intentado conectar a MongoBD: ' + MONGO_URI);
+
 mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
  .then(()=>console.log('Conectado con éxito a MongoDB'))
  .catch(console.error);
