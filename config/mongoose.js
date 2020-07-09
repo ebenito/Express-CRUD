@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
   require('dns').lookup(require('os').hostname(), function (err, add, fam) {
     console.log('Desde el servidor con IP: '+add);
   })
-    
-  mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+
+  mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
    .then(()=>console.log('Conectado con éxito a MongoDB'))
    .catch(console.error);
