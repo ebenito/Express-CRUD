@@ -5,7 +5,7 @@ const config = require( './keys' );
   const MONGO_URI = config.MongoDBCloud || config.MongoDBLocal;
   //const MONGO_URI = process.env.MONGO_URI || config.MongoDBLocal;
 
-  console.log('Intentado conectar a MongoBD: ' + MONGO_URI);
+  //console.log('Intentado conectar a MongoBD: ' + MONGO_URI);
 
   require('dns').lookup(require('os').hostname(), function (err, add, fam) {
     console.log('Desde el servidor con IP: '+add);
