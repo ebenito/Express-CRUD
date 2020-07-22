@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
+const transporter = require('../config/nodemailer');
 
 const UserController = {
     getAll(req,res) {
@@ -17,7 +18,31 @@ const UserController = {
             console.log(req.body.password, hash);
             req.body.password = hash;
 
+            req.body.confirmed = false;
             const user = await User.create(req.body);
+            
+            await transporter.sendMail({
+                from: "Heroku - Mis pruebas",
+                to: user.email,
+                subject:"Bienvenido a nuestra newsletter",
+                html: `
+                <html>
+                <body>
+                    <h3>Bienvenido a nuestro sitio web de pruebas en Heroku</h3>
+                    <img src="https://rciproducciones.files.wordpress.com/2017/01/a540b0498bad80c0269f21900050c899.png"
+                        alt="Bienvenido" />
+                    <hr />
+                    <div>
+                        Gracias ${user.name} por registrarte en nuestro sitio web.
+                        <br />
+                        Haz click
+                        <a href="https://mispruebas-api.herokuapp.com/users/confirm/${user.id}">aquí</a>
+                        para confirmar tu registro.
+                    </div>
+                </body>
+                </html>
+                `
+            },(console.log('Correo enviado')));
             res.status(201).send(user);            
         }
         catch (error) {
@@ -83,6 +108,17 @@ const UserController = {
             console.error(error);
             res.status(500).send({message:'Hubo un problema tratando de eliminar el usuario con id: ' + req.params.id, error})
         }        
+    },
+    confirm(req, res) {
+        User.findByIdAndUpdate(req.params.id, { confirmed : true }, {new:true})
+        .then(user => res.send(user))
+        .catch(error => {
+            console.error(error);
+            res.status(500).send({
+                message: 'Hubo un problema al confirmar el usuario',
+                error
+            });
+        });
     }
 
 };
