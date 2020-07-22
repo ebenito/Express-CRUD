@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 const config = require( './keys' );
 
   //Conectamos a MongoDB; en producción creamos la variable de entorno con la cadena de conexión en producción, que incluye la password (asi no se verá publicamente al estar publicado en GIT) y en desarrollo usará la BD local.
-  const MONGO_URI = process.env.MONGO_URI || config.MongoDBLocal;
+  const MONGO_URI = config.MongoDBCloud || config.MongoDBLocal;
+  //const MONGO_URI = process.env.MONGO_URI || config.MongoDBLocal;
 
   console.log('Intentado conectar a MongoBD: ' + MONGO_URI);
 
