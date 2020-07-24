@@ -7,10 +7,10 @@ const UserModel = require('../models/User');
 const User = require('../models/User');
 
 router.get('/', UserController.getAll);
+router.get('/confirm/:id', UserController.confirm);
 
 router.post('/sync', UserController.registerSync);
 router.post('/', UserController.registerAsync);
-router.post('/confirm/:id', UserController.confirm);
 
 router.put('/:id', UserController.updateAsyc);
 
